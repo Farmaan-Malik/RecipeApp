@@ -10,6 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.myrecipeapp.ui.theme.MyRecipeAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,25 +27,27 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = Screen.Recipe.route) {
+                        composable(Screen.Recipe.route){
+                            RecipeScreen (navController = navController)
+                        }
+                        composable(Screen.Details.route + "/{category}", arguments = listOf(
+                            navArgument("category"){
+                                type = NavType.StringType
+                            }
+                        )){
+                            CategoryDetailScreen(category = it.arguments?.getString("category") ?: "Seafood" , navController)
+                        }
+                    }
                 }
+                //composable("GameDetailScreen/{id}",
+                //                        arguments = listOf(
+                //                            navArgument("id") {
+                //                                type = NavType.IntType
+                //                            }
+                //                        ))
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyRecipeAppTheme {
-        Greeting("Android")
     }
 }

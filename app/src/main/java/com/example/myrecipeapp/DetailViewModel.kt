@@ -1,31 +1,32 @@
 package com.example.myrecipeapp
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myrecipeapp.response.categoryMealDetails.Meal
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class MainViewModel: ViewModel() {
-    private val _categoryState =  mutableStateOf(RecipeState())
-    val  categoryState : State<RecipeState> = _categoryState
+class DetailViewModel(): ViewModel() {
+    private val _detailState =  mutableStateOf(DetailState())
+    val  detailState : State<DetailState> = _detailState
 
-    init {
-        fetchCategories()
-    }
-    private fun fetchCategories(){
+     fun fetchCategoryMealList(category: String){
         viewModelScope.launch {
             try {
-                val response = recipeService.getCategories()
-                _categoryState.value = _categoryState.value.copy(
-                    list = response.categories,
+                Log.e("dddddddd", "asdas")
+                val response = recipeService.getDetails(category)
+
+                _detailState.value = _detailState.value.copy(
+                    list = response.meals,
                     loading = false,
                     error = null
                 )
 
             }catch (e: Exception){
-                _categoryState.value = _categoryState.value.copy(
+                _detailState.value = _detailState.value.copy(
                     loading = false,
                     error = "Error fetchCategories ${e.message}"
                 )
@@ -38,8 +39,9 @@ class MainViewModel: ViewModel() {
 
 }
 
-data class RecipeState(
+data class DetailState(
     val loading: Boolean = true,
-    val list: List<Category> = emptyList(),
+    val list: List<Meal> = emptyList(),
     val error: String? = null
-)
+) {
+}
