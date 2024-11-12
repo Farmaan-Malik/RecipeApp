@@ -39,6 +39,13 @@ class MainActivity : ComponentActivity() {
                         )){
                             CategoryDetailScreen(category = it.arguments?.getString("category") ?: "Seafood" , navController)
                         }
+                        composable(Screen.RecipeDetails.route + "/{id}", arguments = listOf(
+                            navArgument("id"){
+                                type = NavType.IntType
+                            }
+                        )){
+                            RecipeDetailScreen(id = it.arguments?.getInt("id") ?: 0 , navController)
+                        }
                     }
                 }
                 //composable("GameDetailScreen/{id}",
