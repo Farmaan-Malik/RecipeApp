@@ -14,7 +14,8 @@ class MainViewModel: ViewModel() {
     init {
         fetchCategories()
     }
-    private fun fetchCategories(){
+     fun fetchCategories(){
+         _categoryState.value = _categoryState.value.copy(loading = true)
         viewModelScope.launch {
             try {
                 val response = recipeService.getCategories()

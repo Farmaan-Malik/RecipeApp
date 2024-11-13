@@ -102,7 +102,7 @@ fun CategoryDetailScreen(category: String, navController: NavController) {
                                 colors = CardDefaults.cardColors(containerColor = Color.White),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
                                 border = BorderStroke(
-                                    Dp.Hairline, brush = Brush.linearGradient(
+                                    2.dp, brush = Brush.linearGradient(
                                         listOf(
                                             Color.Red,
                                             Color.Black,
